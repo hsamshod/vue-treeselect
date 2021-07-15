@@ -1033,11 +1033,9 @@ export default {
     fixSelectedNodeIds(nodeIdListOfPrevValue) {
       let nextSelectedNodeIds = []
 
-      debugger
-
       // istanbul ignore else
       if (this.single || this.flat || this.disableBranchNodes || this.valueConsistsOf === ALL) {
-        nextSelectedNodeIds = nodeIdListOfPrevValue
+        nextSelectedNodeIds = this.multiple && !nodeIdListOfPrevValue ? [] : nodeIdListOfPrevValue
       } else if (this.valueConsistsOf === BRANCH_PRIORITY) {
         nodeIdListOfPrevValue.forEach(nodeId => {
           nextSelectedNodeIds.push(nodeId)
