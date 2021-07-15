@@ -705,11 +705,19 @@ export default {
     internalValue() {
       let internalValue
 
-      debugger
-
       // istanbul ignore else
       if (this.single || this.flat || this.disableBranchNodes || this.valueConsistsOf === ALL) {
-        internalValue = this.forest.selectedNodeIds.slice()
+        if (this.multiple) {
+          if (typeof this.forest.selectedNodeIds === 'string') {
+            internalValue = this.forest.selectedNodeIds.split(',')
+          } else if (!this.forest.selectedNodeIds) {
+            internalValue = []
+          } else {
+            internalValue = this.forest.selectedNodeIds.slice()
+          }
+        } else {
+          internalValue = this.forest.selectedNodeIds.slice()
+        }
       } else if (this.valueConsistsOf === BRANCH_PRIORITY) {
         internalValue = this.forest.selectedNodeIds.filter(id => {
           const node = this.getNode(id)

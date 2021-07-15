@@ -2090,10 +2090,19 @@ var instanceId = 0;
       var _this = this;
 
       var internalValue;
-      debugger;
 
       if (this.single || this.flat || this.disableBranchNodes || this.valueConsistsOf === ALL) {
-        internalValue = this.forest.selectedNodeIds.slice();
+        if (this.multiple) {
+          if (typeof this.forest.selectedNodeIds === 'string') {
+            internalValue = this.forest.selectedNodeIds.split(',');
+          } else if (!this.forest.selectedNodeIds) {
+            internalValue = [];
+          } else {
+            internalValue = this.forest.selectedNodeIds.slice();
+          }
+        } else {
+          internalValue = this.forest.selectedNodeIds.slice();
+        }
       } else if (this.valueConsistsOf === BRANCH_PRIORITY) {
         internalValue = this.forest.selectedNodeIds.filter(function (id) {
           var node = _this.getNode(id);
