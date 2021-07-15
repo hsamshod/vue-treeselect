@@ -705,6 +705,8 @@ export default {
     internalValue() {
       let internalValue
 
+      debugger
+
       // istanbul ignore else
       if (this.single || this.flat || this.disableBranchNodes || this.valueConsistsOf === ALL) {
         internalValue = this.forest.selectedNodeIds.slice()
@@ -1030,6 +1032,8 @@ export default {
 
     fixSelectedNodeIds(nodeIdListOfPrevValue) {
       let nextSelectedNodeIds = []
+
+      debugger
 
       // istanbul ignore else
       if (this.single || this.flat || this.disableBranchNodes || this.valueConsistsOf === ALL) {
