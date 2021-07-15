@@ -705,19 +705,15 @@ export default {
     internalValue() {
       let internalValue
 
+      if (typeof this.forest.selectedNodeIds === 'string') {
+        this.forest.selectedNodeIds = this.forest.selectedNodeIds.split(',')
+      } else if (!this.forest.selectedNodeIds) {
+        this.forest.selectedNodeIds = []
+      }
+
       // istanbul ignore else
       if (this.single || this.flat || this.disableBranchNodes || this.valueConsistsOf === ALL) {
-        if (this.multiple) {
-          if (typeof this.forest.selectedNodeIds === 'string') {
-            internalValue = this.forest.selectedNodeIds.split(',')
-          } else if (!this.forest.selectedNodeIds) {
-            internalValue = []
-          } else {
-            internalValue = this.forest.selectedNodeIds.slice()
-          }
-        } else {
-          internalValue = this.forest.selectedNodeIds.slice()
-        }
+        internalValue = this.forest.selectedNodeIds.slice()
       } else if (this.valueConsistsOf === BRANCH_PRIORITY) {
         internalValue = this.forest.selectedNodeIds.filter(id => {
           const node = this.getNode(id)
@@ -1041,9 +1037,15 @@ export default {
     fixSelectedNodeIds(nodeIdListOfPrevValue) {
       let nextSelectedNodeIds = []
 
+      if (typeof nodeIdListOfPrevValue === 'string') {
+        nodeIdListOfPrevValue = nodeIdListOfPrevValue.split(',')
+      } else if (!nodeIdListOfPrevValue) {
+        nodeIdListOfPrevValue = []
+      }
+
       // istanbul ignore else
       if (this.single || this.flat || this.disableBranchNodes || this.valueConsistsOf === ALL) {
-        nextSelectedNodeIds = this.multiple && !nodeIdListOfPrevValue ? [] : nodeIdListOfPrevValue
+        nextSelectedNodeIds = nodeIdListOfPrevValue
       } else if (this.valueConsistsOf === BRANCH_PRIORITY) {
         nodeIdListOfPrevValue.forEach(nodeId => {
           nextSelectedNodeIds.push(nodeId)

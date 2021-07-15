@@ -2091,18 +2091,14 @@ var instanceId = 0;
 
       var internalValue;
 
+      if (typeof this.forest.selectedNodeIds === 'string') {
+        this.forest.selectedNodeIds = this.forest.selectedNodeIds.split(',');
+      } else if (!this.forest.selectedNodeIds) {
+        this.forest.selectedNodeIds = [];
+      }
+
       if (this.single || this.flat || this.disableBranchNodes || this.valueConsistsOf === ALL) {
-        if (this.multiple) {
-          if (typeof this.forest.selectedNodeIds === 'string') {
-            internalValue = this.forest.selectedNodeIds.split(',');
-          } else if (!this.forest.selectedNodeIds) {
-            internalValue = [];
-          } else {
-            internalValue = this.forest.selectedNodeIds.slice();
-          }
-        } else {
-          internalValue = this.forest.selectedNodeIds.slice();
-        }
+        internalValue = this.forest.selectedNodeIds.slice();
       } else if (this.valueConsistsOf === BRANCH_PRIORITY) {
         internalValue = this.forest.selectedNodeIds.filter(function (id) {
           var node = _this.getNode(id);
@@ -2362,8 +2358,14 @@ var instanceId = 0;
 
       var nextSelectedNodeIds = [];
 
+      if (typeof nodeIdListOfPrevValue === 'string') {
+        nodeIdListOfPrevValue = nodeIdListOfPrevValue.split(',');
+      } else if (!nodeIdListOfPrevValue) {
+        nodeIdListOfPrevValue = [];
+      }
+
       if (this.single || this.flat || this.disableBranchNodes || this.valueConsistsOf === ALL) {
-        nextSelectedNodeIds = this.multiple && !nodeIdListOfPrevValue ? [] : nodeIdListOfPrevValue;
+        nextSelectedNodeIds = nodeIdListOfPrevValue;
       } else if (this.valueConsistsOf === BRANCH_PRIORITY) {
         nodeIdListOfPrevValue.forEach(function (nodeId) {
           nextSelectedNodeIds.push(nodeId);
