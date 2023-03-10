@@ -1160,11 +1160,15 @@ export default {
     },
 
     getValueContainer() {
-      return this.$refs.control.$refs['value-container']
+      const control = this.$refs.control
+      if (!control) return null
+      return control.$refs['value-container']
     },
 
     getInput() {
-      return this.getValueContainer().$refs.input
+      const container = this.getValueContainer()
+      if (!container) return null
+      return container.$refs.input
     },
 
     focusInput() {
@@ -1172,6 +1176,8 @@ export default {
     },
 
     blurInput() {
+      const input = this.getInput()
+      if (!input) return
       this.getInput().blur()
     },
 
@@ -1181,7 +1187,9 @@ export default {
 
       if (this.disabled) return
 
-      const isClickedOnValueContainer = this.getValueContainer().$el.contains(evt.target)
+      const container = this.getValueContainer()
+
+      const isClickedOnValueContainer = container && container.$el.contains(evt.target)
       if (isClickedOnValueContainer && !this.menu.isOpen && (this.openOnClick || this.trigger.isFocused)) {
         this.openMenu()
       }
@@ -1373,7 +1381,7 @@ export default {
 
     getMenu() {
       const ref = this.appendToBody ? this.$refs.portal.portalTarget : this
-      const $menu = ref.$refs.menu.$refs.menu
+      const $menu = ref.$refs.menu && ref.$refs.menu.$refs.menu
       return $menu && $menu.nodeName !== '#comment' ? $menu : null
     },
 
